@@ -1,16 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../db/config.db');
 
 class Server{
 
     constructor(){
         this.app  = express();
         this.port = process.env.PORT
+        
+        //dc connect
+        this.database();
         //midlewares
-
         this.middlewares();
-
-
         //routes app
         this.routes();
     }   
@@ -36,6 +37,10 @@ class Server{
         this.app.listen( this.port, ()=> {
             console.log( `Sever on port ${ this.port }`)
         } )
+    }
+
+    async database (){
+        await dbConnection();
     }
 
 

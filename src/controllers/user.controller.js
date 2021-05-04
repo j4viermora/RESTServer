@@ -1,29 +1,48 @@
+const User   = require( '../models/user' );
+const bcrypt = require( 'bcryptjs' );
+
+const userPost = async (req, res) => {
 
 
+
+    const { name, email, password, role } = req.body;
+    const user = new User({ name, email, password, role });
+
+    //check email exist
+
+    const emailCheck = await User.findOne({ email });
+
+    if( emailCheck ){
+
+        return res.status( 400 ).json({
+            msg: "correo existente"
+        })
+
+    }
+
+    //encrypt password
+
+    const salt = bcrypt.genSaltSync();
+    user.password = bcrypt.hashSync( password, salt )
+    
+    // save data base
+    await user.save();
+
+    res.json({
+        msg:"post",
+        
+    })
+}
 
 const userGet = (req, res) => {
     
     const query = req.query
     
-    
     res.json({
             msg:"get",
             query
         })
-    } 
-
-
-const userPost = (req, res) => {
-    
-    const body = req.body;
-
-
-
-    res.json({
-        msg:"post",
-        body
-    })
-}
+} 
 
 const userPut = (req, res) => {
 
