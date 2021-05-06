@@ -10,15 +10,15 @@ const userPost = async (req, res) => {
 
     //check email exist
 
-    const emailCheck = await User.findOne({ email });
+    // const emailCheck = await User.findOne({ email });
 
-    if( emailCheck ){
+    // if( emailCheck ){
 
-        return res.status( 400 ).json({
-            msg: "correo existente"
-        })
+    //     return res.status( 400 ).json({
+    //         msg: "correo existente"
+    //     })
 
-    }
+    // }
 
     //encrypt password
 
@@ -26,11 +26,11 @@ const userPost = async (req, res) => {
     user.password = bcrypt.hashSync( password, salt )
     
     // save data base
-    await user.save();
+    const userSave = await user.save();
 
     res.json({
         msg:"post",
-        
+        userSave,
     })
 }
 
