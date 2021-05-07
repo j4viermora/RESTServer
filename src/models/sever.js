@@ -30,6 +30,7 @@ class Server{
     routes(){
         
         this.app.use( '/api/users', require( '../routes/users.routes' ) )
+        this.app.use( '/api/auth', require( '../routes/auth.routes' ) )
 
     }
 
