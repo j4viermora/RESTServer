@@ -61,9 +61,17 @@ const userPut = async(req, res) => {
 
 
 
-const userDelete = (req, res) => {
+const userDelete = async(req, res) => {
+    
+    const { id } = req.params;
+    // real delete fisic of data base
+    // const user = await User.findByIdAndDelete( id );
+
+    const user = await User.findOneAndUpdate( id, { state: false } );
+
     res.json({
-        msg:"delete"
+        msg:"from delete",
+        user
     })
 }
 
