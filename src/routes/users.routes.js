@@ -14,6 +14,7 @@ const {
     userPatch } = require('../controllers/user.controller');
 const { fieldValidate } = require('../middlewares/fieldValidate');
 const { validatorRole, isEmailExist, UserExistID } = require('../helpers/db-validators');
+const { adminRole, checkRole } = require('../middlewares/validateRole');
 
 const router = Router();
 
@@ -41,6 +42,8 @@ router.put   ( '/:id',[
 
 router.delete( '/:id', [
     validateJWT,
+    adminRole,
+    // checkRole( 'ADMIN_ROLE' ),
     check('id', 'no es un id valido').isMongoId(),
     check( 'id' ).custom( UserExistID ),
     fieldValidate, 
