@@ -69,9 +69,11 @@ const userDelete = async(req, res) => {
 
     const user = await User.findOneAndUpdate( id, { state: false } );
 
+    // const userAuth = req.user;
+
     res.json({
-        msg:"from delete",
-        user
+        user, 
+        // userAuth
     })
 }
 
