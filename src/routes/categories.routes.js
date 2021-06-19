@@ -1,10 +1,15 @@
 const { Router } = require('express');
 const { check }  = require('express-validator');
-const { createCategory, getCategories, getCategoryById } = require('../controllers/categories.controller');
+const { 
+     createCategory,
+     getCategories, 
+     getCategoryById, 
+     updateCategory, 
+     deleteCategory } = require('../controllers/categories.controller');
 const { existCategory } = require('../helpers/db-validators');
-
 const { fieldValidate } = require('../middlewares/fieldValidate');
 const { validateJWT } = require('../middlewares/validateJWT');
+const { adminRole } = require('../middlewares/validateRole');
 
 
 const router = Router();
@@ -30,17 +35,23 @@ router.post('/', [
 
 
 //actualizar un registro por id
-router.put('/:id', (_, resp) => {
-    resp.json({
-        msg: 'update category'
-    })
-})
+router.put('/:id',[
+    validateJWT,
+    check( 'name', 'El nombre de la categoría es obligatorio' ).not().isEmpty() , 
+    check( 'id' ).custom( existCategory ),
+    fieldValidate
+], updateCategory)
+
+
 //Borrar una categoría-solo si es un admin
-router.delete('/', (_, resp ) => {
-    resp.json({
-        msg: 'delete category'
-    })
-})
+
+router.delete('/:id',[
+    validateJWT,
+    adminRole,
+    check( 'id', 'No es un id de mongo' ).isMongoId() ,
+    check( 'id' ).custom( existCategory ),
+    fieldValidate
+], deleteCategory)
 
 
 
