@@ -11,6 +11,7 @@ const createCategory = async( req, res) => {
         }
         return res.status( 400 ).json(msg)
     }
+
     const data = {
         name,
         user: req.user._id
@@ -35,10 +36,6 @@ const getCategories = async( req, res )  => {
                             .limit( Number(limit) )
     const total =  Category.countDocuments( query );
 
-    // const [ respCategory, resptotal ] = await Promise.all([ 
-    //     categories, 
-    //     total,
-    //  ])
     const [ categoriesRes, totalRes ] = await Promise.all([ 
         categories, 
         total,
