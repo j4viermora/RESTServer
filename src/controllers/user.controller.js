@@ -74,17 +74,11 @@ const userDelete = async(req, res) => {
     })
 }
 
-const userPatch = (req, res) => {
-    res.json({
-        msg:"patch"
-    })
-}
 
 module.exports = {
     userGet,
     userPost,
     userDelete,
     userPut,
-    userPatch
 
 }

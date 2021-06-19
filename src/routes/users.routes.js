@@ -50,9 +50,4 @@ router.delete( '/:id', [
 ],
 userDelete )
 
-
-
-router.patch ( '/', userPatch     )
-
-
 module.exports = router
