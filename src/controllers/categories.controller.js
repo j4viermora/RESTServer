@@ -25,27 +25,35 @@ const createCategory = async( req, res) => {
 }
 
 const getCategories = async( req, res )  => {
+    
+    try {
+        const { limit = 5 , offset = 0 } = req.query;
 
-    const { limit = 5 , offset = 0 } = req.query;
-
-    const query = { state: true }
-    //TODO hacer la validacion que lleguen numeros validos por las quieries
-    const categories =  Category.find( query )
-                            .populate( 'user', 'name' )
-                            .skip(Number(offset))
-                            .limit( Number(limit) )
-    const total =  Category.countDocuments( query );
-
-    const [ categoriesRes, totalRes ] = await Promise.all([ 
-        categories, 
-        total,
-     ])
-
-    res.json({
-            msg:"get",
-            categoriesRes,
-            totalRes
+        const query = { state: true }
+        //TODO hacer la validacion que lleguen numeros validos por las quieries
+        const categoriesQuery =  Category.find( query )
+                                .populate( 'user', 'name' )
+                                .skip(Number(offset))
+                                .limit( Number(limit) )
+        const totalQuery =  Category.countDocuments( query );
+    
+        const [ categories, total ] = await Promise.all([ 
+            categoriesQuery, 
+            totalQuery,
+         ])
+    
+        res.json({
+                total,
+                categories
+            })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({
+            msg: "Algo anda mal contacta con el administrador"
         })
+    }
+
+   
 }
 
 

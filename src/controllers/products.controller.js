@@ -54,14 +54,14 @@ const getProducts = async ( req, res ) => {
                                 .limit( Number( limit ) )
         const totalQuery = Product.countDocuments( query )
     
-        const [ product, total ] = await Promise.all([
+        const [ products, total ] = await Promise.all([
             productsQuery,
             totalQuery
         ])
     
         res.status(200).json({
-            product,
-            total
+            total,
+            products,
         })
     
     } catch (error) {
